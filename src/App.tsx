@@ -3,7 +3,10 @@ import ListGroup from "./components/ListGroup";
 function App() {
   return (
     <div>
-      <ListGroup />
+      <ListGroup
+        items={["New York", "San Fransico", "Tokyo", "London", "Paris"]}
+        heading={"Cities"}
+      />
     </div>
   );
 }
