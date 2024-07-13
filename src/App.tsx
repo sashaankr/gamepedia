@@ -1,16 +1,26 @@
-import { useState } from "react";
-import Alert from "./components/Alert";
-import Button from "./components/Button";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface User {
+  id: number;
+  name: string;
+}
 
 function App() {
-  const [alertVisible, setAlertVisibility] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<User[]>("https://jsonplaceholder.typicode.com/users")
+      .then((res) => setUsers(res.data));
+  }, []);
+
   return (
-    <div>
-      {alertVisible && (
-        <Alert onClose={() => setAlertVisibility(false)}>My Alert</Alert>
-      )}
-      <Button onClick={() => setAlertVisibility(true)}>My Button</Button>
-    </div>
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
   );
 }
 
