@@ -5,8 +5,7 @@ import {
   Image,
   List,
   ListItem,
-  Spinner,
-  Text,
+  SkeletonText,
 } from "@chakra-ui/react";
 import useGenres, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
@@ -18,15 +17,24 @@ interface Props {
 
 const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   const { data, isLoading, error } = useGenres();
+  const skeletons = Array.from({ length: 19 }, (_, index) => index);
 
   if (error) return null;
-  if (isLoading) return <Spinner />;
 
   return (
     <>
       <Heading fontSize="2xl" marginBottom={3}>
         Genres
       </Heading>
+      {isLoading && (
+        <List>
+          {skeletons.map((skeleton) => (
+            <ListItem key={skeleton} padding={2}>
+              <SkeletonText />
+            </ListItem>
+          ))}
+        </List>
+      )}
       <List>
         {data.map((genre) => (
           <ListItem key={genre.id} paddingY="5px">
